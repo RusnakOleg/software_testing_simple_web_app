@@ -19,12 +19,12 @@ public class StudentRestController {
         return "hello";
     }
 
+    //CRUD operation
+
     @RequestMapping("/")
     public List<Student> getAllStudents(){
         return studentService.getStudents();
     }
-
-    //CRUD operation
 
     @PostMapping
     public Student addStudent(@RequestBody Student student){

@@ -47,6 +47,9 @@ public class StudentService {
     }
 
     public Student update(Student student) {
+        if (student.getId() == null){
+            return null;
+        }
         return studentRepository.save(student);
     }
 }
