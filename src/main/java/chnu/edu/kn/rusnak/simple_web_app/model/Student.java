@@ -1,9 +1,6 @@
 package chnu.edu.kn.rusnak.simple_web_app.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,6 +11,7 @@ import java.util.Objects;
 @Document
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Student {
     @Id
     private String id;
