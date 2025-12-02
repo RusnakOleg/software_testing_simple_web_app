@@ -17,17 +17,26 @@ public class StudentService {
 
     private final List<Student> students = new ArrayList<Student>(
             Arrays.asList(
-                    new Student("1", "Lionel", "Messi", 18),
-                    new Student("2", "Cristiano", "Ronaldo", 20),
-                    new Student("3", "Sergio", "Ramos", 22),
-                    new Student("4", "Roberto", "Carlos", 19),
-                    new Student("5", "David", "Silva", 19)
+                    new Student( "Lionel", "Messi", 19),
+                    new Student( "Cristiano", "Ronaldo", 20),
+                    new Student( "Sergio", "Ramos", 22),
+                    new Student( "Roberto", "Carlos", 19),
+                    new Student( "David", "Silva", 19)
             )
     );
 
-    //@PostConstruct
+    @PostConstruct
     public void init(){
+        studentRepository.deleteAll();
         studentRepository.saveAll(students);
+    }
+
+    public List<Student> createAll(List<Student> students){
+        return studentRepository.saveAll(students);
+    }
+
+    public void deleteAll() {
+        studentRepository.deleteAll();
     }
 
     public List<Student> getStudents() {
