@@ -2,10 +2,13 @@ package chnu.edu.kn.rusnak.simple_web_app.service;
 
 import chnu.edu.kn.rusnak.simple_web_app.model.Student;
 import chnu.edu.kn.rusnak.simple_web_app.repository.StudentRepository;
+import chnu.edu.kn.rusnak.simple_web_app.request.StudentCreateRequest;
+import chnu.edu.kn.rusnak.simple_web_app.request.StudentUpdateRequest;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,4 +67,42 @@ public class StudentService {
         }
         return studentRepository.save(student);
     }
+
+    public Student addStudent(StudentCreateRequest request) {
+
+        if (studentRepository.existsByFirstnameAndLastname(request.firstname(), request.lastname())) {
+            throw new IllegalStateException("Student with same name already exists");
+        }
+
+        Student student = mapToStudent(request);
+        student.setCreatedDate(LocalDateTime.now());
+        student.setLastModifiedDate(null);
+
+        return studentRepository.save(student);
+    }
+
+    private Student mapToStudent(StudentCreateRequest request) {
+        return new Student(request.firstname(), request.lastname(), request.age());
+    }
+
+    public Student updateStudent(StudentUpdateRequest request) {
+
+        Student persisted = studentRepository.findById(request.id()).orElse(null);
+
+        if (persisted != null) {
+
+            Student updated = Student.builder()
+                    .id(request.id())
+                    .firstname(request.firstname())
+                    .lastname(request.lastname())
+                    .age(request.age())
+                    .createdDate(persisted.getCreatedDate())
+                    .lastModifiedDate(LocalDateTime.now())
+                    .build();
+
+            return studentRepository.save(updated);
+        }
+        return null;
+    }
+
 }
