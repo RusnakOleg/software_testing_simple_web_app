@@ -44,6 +44,9 @@ public class StudentService {
     }
 
     public Student add(Student student) {
+        if (student.getId() != null && studentRepository.existsById(student.getId())) {
+            return null;
+        }
         return studentRepository.save(student);
     }
 
@@ -56,7 +59,7 @@ public class StudentService {
     }
 
     public Student update(Student student) {
-        if (student.getId() == null){
+        if (student.getId() == null || !studentRepository.existsById(student.getId())){
             return null;
         }
         return studentRepository.save(student);
